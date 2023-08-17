@@ -1,0 +1,14 @@
+ja:
+  activerecord:
+    attributes:
+      sleep_pattern:
+        name: 名称
+        sort: 並び順
+      timing:
+        name: 名称
+        sort: 並び順
+      daily:
+        date: 日付
+        sleep_pattern_id: 睡眠ID
+        weight: 体重
+        note: 備考
