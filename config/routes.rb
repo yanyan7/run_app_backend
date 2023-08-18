@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       resources :sleep_patterns
       resources :timings
       resources :dailies
+      resources :results
     end
   end
 end

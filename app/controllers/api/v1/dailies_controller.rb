@@ -4,7 +4,12 @@ module Api
       before_action :set_daily, only: [:show, :update, :destroy]
 
       def index
-        dailies = Daily.order(id: :asc)
+        # dailies = Daily.order(id: :asc) # Dailyだけ全行抽出
+        # dailies = SleepPattern.joins(:dailies).select("sleep_patterns.name, dailies.*") # 内部結合の例1
+        # dailies = Daily.joins(:sleep_pattern).select("dailies.*, sleep_patterns.name") # 内部結合の例2
+        dailies = Daily.joins( # 外部結合
+          "LEFT OUTER JOIN sleep_patterns ON dailies.sleep_pattern_id = sleep_patterns.id"
+        ).select("dailies.*, sleep_patterns.name AS sleep_pattern_name")
         render status: 200, json: { status: 'SUCCESS', message: 'Loaded dailies', data: dailies }
       end
 
