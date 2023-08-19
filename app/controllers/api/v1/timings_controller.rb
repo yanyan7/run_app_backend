@@ -6,7 +6,11 @@ module Api
 
       def index
         timings = Timing.order(id: :asc)
-        render status: 200, json: { status: 'SUCCESS', message: 'Loaded timings', data: timings }
+        if timings.empty?
+          render status: 404, json: { status: 'ERROR', message: 'Not Found' }
+        else
+          render status: 200, json: { status: 'SUCCESS', message: 'Loaded timings', data: timings }
+        end
       end
 
       def show

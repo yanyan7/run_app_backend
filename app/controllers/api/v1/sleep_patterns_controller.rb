@@ -6,7 +6,11 @@ module Api
 
       def index
         sleepPatterns = SleepPattern.order(id: :asc)
-        render status: 200, json: { status: 'SUCCESS', message: 'Loaded sleep_patterns', data: sleepPatterns }
+        if sleepPatterns.empty?
+          render status: 404, json: { status: 'ERROR', message: 'Not Found' }
+        else
+          render status: 200, json: { status: 'SUCCESS', message: 'Loaded sleepPatterns', data: sleepPatterns }
+        end
       end
 
       def show

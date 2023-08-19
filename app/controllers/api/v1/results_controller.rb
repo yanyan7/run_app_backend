@@ -33,7 +33,11 @@ module Api
           results.updated_at
           "
         )
-        render status: 200, json: { status: 'SUCCESS', message: 'Loaded results', data: results }
+        if results.empty?
+          render status: 404, json: { status: 'ERROR', message: 'Not Found' }
+        else
+          render status: 200, json: { status: 'SUCCESS', message: 'Loaded results', data: results }
+        end
       end
 
       def show

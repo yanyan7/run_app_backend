@@ -8,7 +8,7 @@ RSpec.describe "SleepPatternsコントローラーのテスト", type: :request 
 
   describe "GET /index" do
     context "全てのSleepPatternを取得する" do
-      it '認証が通っている場合' do
+      it '認証が通っている かつ データがある場合' do
         create_list(:sleep_pattern, 3)
     
         get api_v1_sleep_patterns_path, headers: authorized_headers
@@ -19,6 +19,13 @@ RSpec.describe "SleepPatternsコントローラーのテスト", type: :request 
     
         # 正しい数のデータが返されたか確認する。
         expect(json['data'].length).to eq(3)
+      end
+
+      it '認証が通っている かつ データがない場合' do
+        # 404が返ってきたか確認する。
+        expect(
+          get api_v1_sleep_patterns_path, headers: authorized_headers
+        ).to eq(404)
       end
 
       it '認証が通っていない場合' do
@@ -34,7 +41,7 @@ RSpec.describe "SleepPatternsコントローラーのテスト", type: :request 
     context "特定のSleepPatternを取得する" do
       let(:sleep_pattern) { create(:sleep_pattern, name: 'test-name') }
 
-      it '認証が通っている場合' do
+      it '認証が通っている かつ データがある場合' do
         get "#{api_v1_sleep_patterns_path}/#{sleep_pattern.id}", headers: authorized_headers
         json = JSON.parse(response.body)
     
@@ -43,6 +50,13 @@ RSpec.describe "SleepPatternsコントローラーのテスト", type: :request 
     
         # 要求した特定のSleepPatternのみ取得した事を確認する
         expect(json['data']['name']).to eq(sleep_pattern.name)
+      end
+
+      it '認証が通っている かつ データがない場合' do    
+        # ActiveRecordのNotFoundエラーが発生することを確認する
+        expect {
+          get "#{api_v1_sleep_patterns_path}/test", headers: authorized_headers
+        }.to raise_error(ActiveRecord::RecordNotFound)
       end
 
       it '認証が通っていない場合' do

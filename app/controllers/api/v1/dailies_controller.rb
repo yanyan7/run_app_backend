@@ -11,7 +11,11 @@ module Api
         dailies = Daily.joins( # 外部結合
           "LEFT OUTER JOIN sleep_patterns ON dailies.sleep_pattern_id = sleep_patterns.id"
         ).select("dailies.*, sleep_patterns.name AS sleep_pattern_name")
-        render status: 200, json: { status: 'SUCCESS', message: 'Loaded dailies', data: dailies }
+        if dailies.empty?
+          render status: 404, json: { status: 'ERROR', message: 'Not Found' }
+        else
+          render status: 200, json: { status: 'SUCCESS', message: 'Loaded dailies', data: dailies }
+        end
       end
 
       def show
