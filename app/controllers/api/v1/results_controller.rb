@@ -1,6 +1,7 @@
 module Api
   module V1
     class ResultsController < ApplicationController
+      before_action :authenticate_api_v1_user!
       before_action :set_result, only: [:show, :update, :destroy]
 
       def index

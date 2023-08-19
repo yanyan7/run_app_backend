@@ -1,6 +1,7 @@
 module Api
   module V1
     class SleepPatternsController < ApplicationController
+      before_action :authenticate_api_v1_user!
       before_action :set_sleep_pattern, only: [:show, :update, :destroy]
 
       def index

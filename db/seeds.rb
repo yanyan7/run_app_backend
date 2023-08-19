@@ -3,6 +3,7 @@ Result.delete_all
 Daily.delete_all
 Timing.delete_all
 SleepPattern.delete_all
+User.delete_all
 
 # オートインクリメントをリセット
 def reset_id(tablename)
@@ -13,6 +14,7 @@ reset_id('results')
 reset_id('dailies')
 reset_id('timings')
 reset_id('sleep_patterns')
+reset_id('users')
 
 # データを追加
 
@@ -152,4 +154,10 @@ Result.create!(
   shoes: nil,
   note: '腹に効いた',
   deleted: 0
+)
+
+# usersテーブル
+User.create!(
+  email: 'test@example.com',
+  password: 'Pass1234'
 )
