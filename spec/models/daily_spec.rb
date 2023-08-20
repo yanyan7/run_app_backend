@@ -19,6 +19,13 @@ RSpec.describe 'Dailyモデルのテスト', type: :model do
       end
     end
 
+    context 'user_idカラム' do
+      it 'nullがNGであること' do
+        daily = build(:daily, user_id: nil)
+        expect(daily).to be_invalid
+      end
+    end
+
     context 'sleep_pattern_idカラム' do
       it 'nullはOKであること' do
         daily = build(:daily, sleep_pattern_id: nil)

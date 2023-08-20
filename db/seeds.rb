@@ -18,6 +18,16 @@ reset_id('users')
 
 # データを追加
 
+# usersテーブル
+User.create!(
+  email: 'test@example.com',
+  password: 'Pass1234'
+)
+User.create!(
+  email: 'test2@example.com',
+  password: 'Pass1234'
+)
+
 # sleep_patternsテーブル
 SleepPattern.create!(
   name: '◯',
@@ -48,6 +58,7 @@ Timing.create!(
 
 # dailiesテーブル
 Daily.create!(
+  user_id: 1,
   date: '2023/08/01',
   sleep_pattern_id: 1,
   weight: 51,
@@ -55,6 +66,7 @@ Daily.create!(
   deleted: 0
 )
 Daily.create!(
+  user_id: 1,
   date: '2023/08/02',
   sleep_pattern_id: 2,
   weight: 50.5,
@@ -62,6 +74,7 @@ Daily.create!(
   deleted: 0
 )
 Daily.create!(
+  user_id: 2,
   date: '2023/08/03',
   sleep_pattern_id: 3,
   weight: nil,
@@ -71,6 +84,7 @@ Daily.create!(
 
 # resultsテーブル
 Result.create!(
+  user_id: 1,
   daily_id: 1,
   date: '2023/08/01',
   temperature: 32,
@@ -88,6 +102,7 @@ Result.create!(
   deleted: 0
 )
 Result.create!(
+  user_id: 1,
   daily_id: 2,
   date: '2023/08/02',
   temperature: 31,
@@ -105,6 +120,7 @@ Result.create!(
   deleted: 0
 )
 Result.create!(
+  user_id: 1,
   daily_id: 2,
   date: '2023/08/02',
   temperature: 31,
@@ -122,6 +138,7 @@ Result.create!(
   deleted: 0
 )
 Result.create!(
+  user_id: 1,
   daily_id: 2,
   date: '2023/08/02',
   temperature: 31,
@@ -139,6 +156,7 @@ Result.create!(
   deleted: 0
 )
 Result.create!(
+  user_id: 2,
   daily_id: 3,
   date: '2023/08/03',
   temperature: nil,
@@ -154,10 +172,4 @@ Result.create!(
   shoes: nil,
   note: '腹に効いた',
   deleted: 0
-)
-
-# usersテーブル
-User.create!(
-  email: 'test@example.com',
-  password: 'Pass1234'
 )

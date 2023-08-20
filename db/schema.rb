@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_18_050916) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_16_021855) do
   create_table "dailies", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.date "date", null: false
+    t.bigint "user_id"
     t.bigint "sleep_pattern_id"
     t.float "weight"
     t.text "note"
@@ -20,10 +21,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_18_050916) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["sleep_pattern_id"], name: "index_dailies_on_sleep_pattern_id"
+    t.index ["user_id"], name: "index_dailies_on_user_id"
   end
 
   create_table "results", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "daily_id"
+    t.bigint "user_id"
     t.date "date", null: false
     t.integer "temperature"
     t.bigint "timing_id"
@@ -42,6 +45,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_18_050916) do
     t.datetime "updated_at", null: false
     t.index ["daily_id"], name: "index_results_on_daily_id"
     t.index ["timing_id"], name: "index_results_on_timing_id"
+    t.index ["user_id"], name: "index_results_on_user_id"
   end
 
   create_table "sleep_patterns", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -89,6 +93,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_18_050916) do
   end
 
   add_foreign_key "dailies", "sleep_patterns"
+  add_foreign_key "dailies", "users"
   add_foreign_key "results", "dailies"
   add_foreign_key "results", "timings"
+  add_foreign_key "results", "users"
 end

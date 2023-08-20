@@ -9,6 +9,23 @@ ja:
         sort: 並び順
       daily:
         date: 日付
+        user_id: ユーザーID
         sleep_pattern_id: 睡眠ID
         weight: 体重
         note: 備考
+      result:
+        daily_id: 日付ID
+        user_id: ユーザーID
+        date: 日付
+        temperature: 気温
+        timing_id: 時間帯ID
+        content: 備考
+        distance: 距離
+        time_h: 時間
+        time_m: 分
+        time_s: 秒
+        pace_m: ペース(分)
+        pace_s: ペース(秒)
+        place: 場所
+        shoes: シューズ
+        note: 練習備考

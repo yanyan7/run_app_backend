@@ -9,6 +9,13 @@ RSpec.describe 'Resultモデルのテスト', type: :model do
       end
     end
 
+    context 'user_idカラム' do
+      it 'nullがNGであること' do
+        result = build(:result, user_id: nil)
+        expect(result).to be_invalid
+      end
+    end
+
     context 'dateカラム' do
       it '空欄がNGであること' do
         result = build(:result, date: '')

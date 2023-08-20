@@ -5,6 +5,7 @@ FactoryBot.define do
     note { '備考' }
     deleted { 0 }
 
+    association :user, strategy: :create
     association :sleep_pattern, strategy: :create
   end
 end

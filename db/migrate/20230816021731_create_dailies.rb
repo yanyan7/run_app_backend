@@ -2,6 +2,7 @@ class CreateDailies < ActiveRecord::Migration[7.0]
   def change
     create_table :dailies do |t|
       t.date :date, null: false
+      t.references :user, foreign_key: true
       t.references :sleep_pattern, foreign_key: true
       t.float :weight
       t.text :note

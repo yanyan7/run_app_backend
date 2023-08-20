@@ -15,6 +15,7 @@ FactoryBot.define do
     deleted { 0 }
 
     association :daily, strategy: :create
+    association :user, strategy: :create
     association :timing, strategy: :create
   end
 end

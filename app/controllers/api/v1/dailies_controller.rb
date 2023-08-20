@@ -3,14 +3,17 @@ module Api
     class DailiesController < ApplicationController
       before_action :authenticate_api_v1_user!
       before_action :set_daily, only: [:show, :update, :destroy]
+      before_action :set_search_key, only: [:index]
 
       def index
-        # dailies = Daily.order(id: :asc) # Dailyだけ全行抽出
-        # dailies = SleepPattern.joins(:dailies).select("sleep_patterns.name, dailies.*") # 内部結合の例1
-        # dailies = Daily.joins(:sleep_pattern).select("dailies.*, sleep_patterns.name") # 内部結合の例2
-        dailies = Daily.joins( # 外部結合
+        dailies = Daily.joins(
           "LEFT OUTER JOIN sleep_patterns ON dailies.sleep_pattern_id = sleep_patterns.id"
+        ).where(
+          user_id: @user_id
+        ).where(
+          "date BETWEEN ? AND ?", @date_from, @date_to
         ).select("dailies.*, sleep_patterns.name AS sleep_pattern_name")
+
         if dailies.empty?
           render status: 404, json: { status: 'ERROR', message: 'Not Found' }
         else
@@ -51,7 +54,7 @@ module Api
       end
 
       def daily_params
-        params.require(:daily).permit(:date, :sleep_pattern_id, :weight, :note, :deleted)
+        params.require(:daily).permit(:date, :user_id, :sleep_pattern_id, :weight, :note, :deleted)
       end
     end
   end

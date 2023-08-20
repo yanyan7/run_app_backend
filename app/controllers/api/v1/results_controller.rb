@@ -3,16 +3,21 @@ module Api
     class ResultsController < ApplicationController
       before_action :authenticate_api_v1_user!
       before_action :set_result, only: [:show, :update, :destroy]
+      before_action :set_search_key, only: [:index]
 
       def index
-        # results = Result.order(id: :asc)
-        results = Daily.joins( # 外部結合
+        results = Daily.joins(
           "LEFT OUTER JOIN sleep_patterns ON dailies.sleep_pattern_id = sleep_patterns.id
           LEFT OUTER JOIN results ON dailies.id = results.daily_id
           LEFT OUTER JOIN timings ON results.timing_id = timings.id"
+        ).where(
+          user_id: @user_id
+        ).where(
+          "dailies.date BETWEEN ? AND ?", @date_from, @date_to
         ).select(
           "dailies.id AS daily_id,
           dailies.date,
+          dailies.user_id,
           dailies.sleep_pattern_id,
           sleep_patterns.name AS sleep_pattern_name,
           dailies.weight,
@@ -74,7 +79,7 @@ module Api
 
       def result_params
         params.require(:result).permit(
-          :date, :daily_id, :date, :temperature, :timing_id,
+          :daily_id, :user_id, :date, :temperature, :timing_id,
           :content, :distance, :time_h, :time_m, :time_s, :pace_m,
           :pace_s, :place, :shoes, :note, :deleted
         )
