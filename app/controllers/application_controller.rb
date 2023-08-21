@@ -13,10 +13,22 @@ class ApplicationController < ActionController::API
   end
 
   def set_search_key
-    if params[:"user_id"] && params[:"year_month"]
-      @user_id = params[:"user_id"]
-      @date_from = "#{params[:"year_month"]}-01"
-      @date_to = "#{params[:"year_month"]}-31"
+    if params[:user_id] && params[:year] && params[:month]
+      # user_idを検証する(usersテーブルに存在するか)
+      User.find(params[:user_id])
+
+      # パラメータをセット
+      @user_id = params[:user_id]
+      @date_from = Date.new(
+        params[:year].to_i,
+        params[:month].to_i,
+        1
+      )
+      @date_to = Date.new(
+        params[:year].to_i,
+        params[:month].to_i,
+        -1
+      )
     else
       render status: 422, json: { status: 'ERROR', message: 'ユーザーID、期間を指定して下さい' }
     end

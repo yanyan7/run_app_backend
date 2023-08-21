@@ -36,14 +36,6 @@ RSpec.describe "Resultsコントローラーのテスト", type: :request do
               note: nil,
               deleted: 0
             )
-            Daily.create(
-              date: "2023-08-01",
-              user_id: 1234,
-              sleep_pattern_id: nil,
-              weight: nil,
-              note: nil,
-              deleted: 0
-            )
             2.times do
               Result.create(
                 daily_id: daily.id,
@@ -64,21 +56,26 @@ RSpec.describe "Resultsコントローラーのテスト", type: :request do
               )
             end
 
-            get "#{api_v1_results_path}?user_id=#{user.id}&year_month=2023-08", headers: authorized_headers
+            get "#{api_v1_results_path}?user_id=#{user.id}&year=2023&month=8", headers: authorized_headers
             json = JSON.parse(response.body)
         
             # リクエスト成功を表す200が返ってきたか確認する。
             expect(response.status).to eq(200)
         
             # 正しい数のデータが返されたか確認する。
-            expect(json['data'].length).to eq(3)
+            expect(json['data'].length).to eq(31)
           end
     
           it 'データがない場合' do
-            # 404が返ってきたか確認する。
-            expect(
-              get "#{api_v1_results_path}?user_id=1234&year_month=2100-01", headers: authorized_headers
-            ).to eq(404)
+            user = create(:user)
+            get "#{api_v1_results_path}?user_id=#{user.id}&year=2100&month=1", headers: authorized_headers
+            json = JSON.parse(response.body)
+        
+            # リクエスト成功を表す200が返ってきたか確認する。※データが無くても日数分のレコードを返す
+            expect(response.status).to eq(200)
+        
+            # 正しい数のデータが返されたか確認する。
+            expect(json['data'].length).to eq(31)
           end
         end
 

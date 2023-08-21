@@ -36,16 +36,8 @@ RSpec.describe "Dailiesコントローラーのテスト", type: :request do
               note: nil,
               deleted: 0
             )
-            Daily.create(
-              date: "2023-08-01",
-              user_id: 1234,
-              sleep_pattern_id: nil,
-              weight: nil,
-              note: nil,
-              deleted: 0
-            )
 
-            get "#{api_v1_dailies_path}?user_id=#{user.id}&year_month=2023-08", headers: authorized_headers
+            get "#{api_v1_dailies_path}?user_id=#{user.id}&year=2023&month=8", headers: authorized_headers
             json = JSON.parse(response.body)
         
             # リクエスト成功を表す200が返ってきたか確認する。
@@ -56,9 +48,10 @@ RSpec.describe "Dailiesコントローラーのテスト", type: :request do
           end
     
           it 'データがない場合' do
+            user = create(:user)
             # 404が返ってきたか確認する。
             expect(
-              get "#{api_v1_dailies_path}?user_id=1234&year_month=2100-01", headers: authorized_headers
+              get "#{api_v1_dailies_path}?user_id=#{user.id}&year=2100&month=1", headers: authorized_headers
             ).to eq(404)
           end
         end
