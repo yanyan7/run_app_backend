@@ -7,6 +7,10 @@ Rails.application.routes.draw do
       resources :timings
       resources :dailies
       resources :results
+      # ログインユーザー取得のルーティング
+      namespace :auth do
+        resources :sessions, only: %i[index]
+      end
     end
   end
 end
