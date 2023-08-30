@@ -67,6 +67,7 @@ module Api
           "date BETWEEN ? AND ?", @date_from, @date_to
         ).select(
           "dailies.id AS daily_id,
+          dailies.date AS date,
           CAST(DATE_FORMAT(dailies.date,'%Y') AS SIGNED) AS year,
           CAST(DATE_FORMAT(dailies.date,'%c') AS SIGNED) AS month,
           CAST(DATE_FORMAT(dailies.date,'%e') AS SIGNED) AS day,
@@ -86,6 +87,12 @@ module Api
             dailies.push(
               {
                 daily_id: nil,
+                # date: "#{params[:year]}-#{params[:month]}-#{num + 1}",
+                date: Date.new(
+                  params[:year].to_i,
+                  params[:month].to_i,
+                  num + 1
+                ).strftime("%Y-%m-%d"),
                 year: params[:year].to_i,
                 month: params[:month].to_i,
                 day: num + 1,
