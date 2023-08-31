@@ -51,7 +51,7 @@ module Api
 
       def result_params
         params.require(:result).permit(
-          :daily_id, :user_id, :date, :temperature, :timing_id,
+          :daily_id, :user_id, :date, :temperature, :timing_id, :load_id,
           :content, :distance, :time_h, :time_m, :time_s, :pace_m,
           :pace_s, :place, :shoes, :note, :deleted
         )
@@ -122,6 +122,8 @@ module Api
         # resultを取得
         results = Result.joins(
           "LEFT OUTER JOIN timings ON results.timing_id = timings.id"
+        ).joins(
+          "LEFT OUTER JOIN loads ON results.load_id = loads.id"
         ).where(
           user_id: @user_id
         ).where(
@@ -134,6 +136,8 @@ module Api
           results.temperature,
           results.timing_id,
           timings.name AS timing_name,
+          results.load_id,
+          loads.name AS load_name,
           results.content,
           results.distance,
           -- concat(results.time_h, ':', results.time_m, ':', results.time_s) AS time,

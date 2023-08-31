@@ -132,6 +132,7 @@ module Api
               date: _result[:date],
               temperature: _result[:temperature],
               timing_id: _result[:timing_id],
+              load_id: _result[:load_id],
               content: _result[:content],
               distance: _result[:distance],
               time_h: _result[:time_h],
