@@ -7,6 +7,9 @@ ja:
       timing:
         name: 名称
         sort: 並び順
+      load:
+        name: 名称
+        sort: 並び順
       daily:
         date: 日付
         user_id: ユーザーID

@@ -6,6 +6,7 @@ class CreateResults < ActiveRecord::Migration[7.0]
       t.date :date, null: false
       t.integer :temperature
       t.references :timing, foreign_key: true
+      t.references :load, foreign_key: true
       t.text :content
       t.float :distance
       # t.string :time

@@ -1,4 +1,4 @@
-class Timing < ApplicationRecord
+class Load < ApplicationRecord
   has_many :results, dependent: :destroy
 
   validates :name, presence: true, length: { maximum: 255 }

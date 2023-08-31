@@ -24,12 +24,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_16_021855) do
     t.index ["user_id"], name: "index_dailies_on_user_id"
   end
 
+  create_table "loads", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "sort", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "results", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "daily_id"
     t.bigint "user_id"
     t.date "date", null: false
     t.integer "temperature"
     t.bigint "timing_id"
+    t.bigint "load_id"
     t.text "content"
     t.float "distance"
     t.integer "time_h"
@@ -44,6 +52,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_16_021855) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["daily_id"], name: "index_results_on_daily_id"
+    t.index ["load_id"], name: "index_results_on_load_id"
     t.index ["timing_id"], name: "index_results_on_timing_id"
     t.index ["user_id"], name: "index_results_on_user_id"
   end
@@ -95,6 +104,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_16_021855) do
   add_foreign_key "dailies", "sleep_patterns"
   add_foreign_key "dailies", "users"
   add_foreign_key "results", "dailies"
+  add_foreign_key "results", "loads"
   add_foreign_key "results", "timings"
   add_foreign_key "results", "users"
 end

@@ -1,6 +1,7 @@
 # テーブルデータを削除
 Result.delete_all
 Daily.delete_all
+Load.delete_all
 Timing.delete_all
 SleepPattern.delete_all
 User.delete_all
@@ -12,6 +13,7 @@ def reset_id(tablename)
 end
 reset_id('results')
 reset_id('dailies')
+reset_id('loads')
 reset_id('timings')
 reset_id('sleep_patterns')
 reset_id('users')
@@ -38,7 +40,7 @@ SleepPattern.create!(
   sort: 2
 )
 SleepPattern.create!(
-  name: '✗',
+  name: '✕',
   sort: 3
 )
 
@@ -53,6 +55,20 @@ Timing.create!(
 )
 Timing.create!(
   name: '午後',
+  sort: 3
+)
+
+# loadsテーブル
+Load.create!(
+  name: '高',
+  sort: 1
+)
+Load.create!(
+  name: '中',
+  sort: 2
+)
+Load.create!(
+  name: '低',
   sort: 3
 )
 

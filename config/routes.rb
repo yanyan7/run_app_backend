@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       mount_devise_token_auth_for 'User', at: 'auth'
       resources :sleep_patterns
       resources :timings
+      resources :loads
       resources :dailies
       resources :results
       # ログインユーザー取得のルーティング
